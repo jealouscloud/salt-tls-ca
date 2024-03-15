@@ -1,0 +1,12 @@
+---
+tls:
+  ca: # perhaps on a master
+    salt:
+      days: 3650
+  trust: # perhaps on a minion
+    master: salt
+  custom: # Perhaps on a docker registry
+    docker-registry.host:
+      ca_server: master
+      ca_name: salt
+      alt_name: 'DNS:docker-registry.host'
