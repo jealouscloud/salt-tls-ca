@@ -13,7 +13,7 @@ Trust TLS cert from ca server:
     - mods: _orch.tls.xfer
     - pillar:
         src:
-          id: {{ ca_name }}
+          id: {{ ca_server }}
           path: /etc/pki/{{ ca_name }}/{{ ca_name }}_ca_cert.crt
         target:
           id: {{ caller }}
