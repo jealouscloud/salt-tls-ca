@@ -2,7 +2,7 @@
 
 {{ ca_name }} is a certificate that does not expire:
   tls.valid_certificate:
-    - name: {{ crt_path }}
+    - name: /etc/pki/{{ ca_name }}.crt
     - days: 30
     
 # Only request to trust CA cert if we havent already
