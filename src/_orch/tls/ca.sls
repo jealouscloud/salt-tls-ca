@@ -46,18 +46,15 @@ Sign with CA certificate and key:
 {% do titles.append(title) %}
 {{ title }}:
   salt.runner:
-    - name: datashare.use
-    - src:
-        id: {{ ca_server | yaml_dquote }}
-        cmd: file.read
-        kwargs:
+    - name: state.orchestrate
+    - mods: _orch.tls.xfer
+    - pillar:
+        src:
+          id: {{ ca_server | yaml_dquote }}
           path: {{ src_path | yaml_dquote }}
-    - target:
-        id: {{ caller }}
-        cmd: x509.write_pem
-        kwargs:
+        target:
+          id: {{ caller }}
           path: {{ write_path | yaml_dquote}}
-          text: __DATA__
     - require:
       - Sign with CA certificate and key
 {% set _ = titles.append(title) %}
