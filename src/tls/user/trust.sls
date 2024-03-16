@@ -13,7 +13,7 @@ Request CA trust update from {{ ca_server }} for {{ ca_name }}:
     - data:
         ca_server: {{ ca_server }}
         ca_name: {{ ca_name }}
-    - require:
+    - onerror:
         - {{ ca_name }} is a certificate that does not expire
 {% endif %}
 
