@@ -10,7 +10,7 @@
 Trust TLS cert from ca server:
   salt.runner:
     - name: state.orchestrate
-    - mods: .xfer
+    - mods: _orch.tls.xfer
     - pillar:
         src:
           id: {{ ca_name }}
