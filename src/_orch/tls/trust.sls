@@ -26,7 +26,7 @@ Import certificate to the system trust store:
     - sls:
       - tls.trust
     - require:
-      - Wait for signing to complete
+      - Trust TLS cert from ca server
 
 Notify master we were successful:
   salt.function:
