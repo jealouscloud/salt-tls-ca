@@ -9,6 +9,8 @@ Ensure cert is in ca-certificates directory:
   file.managed:
     - source: /etc/pki/{{ cert_name }}.crt
     - name: {{ crt_path }}
+    - require: 
+      - Ensure the CA trust bundle exists
 
 Update CA certificates:
   cmd.run:

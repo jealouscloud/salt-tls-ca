@@ -25,6 +25,8 @@ Import certificate to the system trust store:
     - queue: true
     - sls:
       - tls.trust
+    - pillar:
+        cert_name: {{ ca_name }}
     - require:
       - Trust TLS cert from ca server
 
