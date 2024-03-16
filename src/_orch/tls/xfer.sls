@@ -16,13 +16,13 @@ def remote_cmd(minion_id, fun, arg, kwarg):
     return ret['ret']
 
 def run():
-    source = __salt__["pillar.get"]("o:src")
+    source = __salt__["pillar.get"]("src")
     src = source.get("id")
     src_path = source.get("path")
 
     # TODO: check for pillar key "remote_ca"
 
-    target = __salt__["pillar.get"]("o:target")
+    target = __salt__["pillar.get"]("target")
     tgt = target.get("id")
     tgt_path = target.get("path")
 
