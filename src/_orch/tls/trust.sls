@@ -9,23 +9,24 @@
 # get the tls cert from the ca_server
 Trust TLS cert from ca server:
   salt.runner:
-    - name: datashare.use
-      omit_ret: False
-    - src:
-        id: {{ ca_server }}
-        cmd: file.read
-        kwargs:
+    - name: state.orchestrate
+    - mods: .xfer
+    - pillar:
+        src:
+          id: {{ ca_name }}
           path: /etc/pki/{{ ca_name }}/{{ ca_name }}_ca_cert.crt
-    - target:
-        id: {{ caller }}
-        cmd: state.apply
-        kwargs:
-          mods:
-            - ubuntu.tls.import
-          pillar:
-            cert_name: {{ ca_name }}
-            cert_value: __DATA__
-          queue: true
+        target:
+          id: {{ caller }}
+          path: /etc/pki/{{ ca_name }}.crt
+
+Import certificate to the system trust store:
+  salt.state:
+    - tgt: {{ caller }}
+    - queue: true
+    - sls:
+      - tls.trust
+    - require:
+      - Wait for signing to complete
 
 Notify master we were successful:
   salt.function:
@@ -37,4 +38,5 @@ Notify master we were successful:
           result: "success"
           comment: "TLS cert imported"
     - require:
+      - Import certificate to the system trust store
       - Trust TLS cert from ca server
