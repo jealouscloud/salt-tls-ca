@@ -14,9 +14,6 @@ Make target directory:
     - kwarg:
         fun: file.directory
         name: /etc/pki/
-    - require:
-      - Import certificate to the system trust store
-      - Trust TLS cert from ca server
 
 Trust TLS cert from ca server:
   salt.runner:
