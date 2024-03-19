@@ -7,6 +7,17 @@
 {% set request_id = salt.pillar.get("request_id", caller) %}
 
 # get the tls cert from the ca_server
+Make target directory:
+  salt.function:
+    - name: state.single
+    - tgt: {{ caller | yaml_dquote }}
+    - kwarg:
+        fun: file.directory
+        name: /etc/pki/
+    - require:
+      - Import certificate to the system trust store
+      - Trust TLS cert from ca server
+
 Trust TLS cert from ca server:
   salt.runner:
     - name: state.orchestrate
@@ -18,6 +29,8 @@ Trust TLS cert from ca server:
         target:
           id: {{ caller }}
           path: /etc/pki/{{ ca_name }}.crt
+    - require:
+      - Make target directory
 
 Import certificate to the system trust store:
   salt.state:
