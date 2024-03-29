@@ -16,7 +16,7 @@ Update CA certificates:
   cmd.run:
     - name: update-ca-trust
     - onchanges:
-      - x509: Ensure cert is in trust anchors directory
+      - Ensure cert is in trust anchors directory
 
 Log that we now trust the CA:
   grains.present:
