@@ -5,21 +5,23 @@ Ensure the CA trust bundle exists:
   file.directory:
     - name: /etc/pki/ca-trust/source/anchors/
 
-Import CA Certificate:
-  x509.pem_managed:
-    - name: {{ crt_path | yaml_encode }}
-    - text: {{ salt.pillar.get("cert_value") | yaml_encode}}
+Ensure cert is in trust anchors directory:
+  file.managed:
+    - source: /etc/pki/{{ cert_name }}.crt
+    - name: {{ crt_path }}
+    - require: 
+      - Ensure the CA trust bundle exists
 
 Update CA certificates:
   cmd.run:
     - name: update-ca-trust
     - onchanges:
-      - x509: Import CA Certificate
+      - x509: Ensure cert is in trust anchors directory
 
 Log that we now trust the CA:
   grains.present:
     - name: 'tls:trusted:{{ cert_name }}'
     - value: True
     - require:
-      - Import CA Certificate
+      - Ensure cert is in trust anchors directory
       - Update CA certificates
